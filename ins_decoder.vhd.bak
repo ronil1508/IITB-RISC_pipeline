@@ -1,0 +1,41 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity ins_dec is
+	port (
+	ins_dec_reg: in std_logic_vector(15 downto 0);
+	clk: in std_logic	
+	op_code: in std_logic_vector(3 downto 0);
+		reg_1: out std_logic_vector(2 downto 0);
+		reg_2: out std_logic_vector(2 downto 0);
+		reg_3: out std_logic_vector(2 downto 0);
+		cz: out std_logic_vector(1 downto 0);
+		imm_6: out std_logic_vector(5 downto 0);
+		imm_9: out std_logic_vector(8 downto 0);
+		write_reg: out std_logic
+			
+	) ;
+end ins_dec;
+
+architecture working of ins_dec is
+signal ins_store: std_logic_vector(15 downto 0);
+begin
+	write_proc: process(clk)
+	begin
+	if(falling_edge(clk)) then
+			ins_store <= ins_dec_reg;
+	end if;
+	end process;
+	
+	read_proc: process(ins_store)
+	begin
+	if(op_code="0001") then
+		reg_1<=ins_store(11 downto 9);
+		reg_2 <= ins_store(8 downto 6);
+		reg_3 <= ins_store(5 downto 3);
+		cz <= ins_store(1 downto 0);
+	end if;
+	end process;
+
+end working;
